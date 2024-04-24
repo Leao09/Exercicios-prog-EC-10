@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: API de Gerenciamento de tasks
+  description: Esta é uma API simples para criar, consultar e deletar tasks.
+  version: "1.0.0"
+servers:
+  - url: 'http://localhost:5000'
+    description: API de Produção
+paths:
+  /tasks:
+    get:
+      summary: lista todas as tasks
+      operationId: getTasks
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: lista de tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Comprar pão
+                  description:
+                    type: string
+                    example: Comprar pão na padaria da esquina
+                  date: 
+                    type: string
+                    example: 2024-03-22
+    post:
+      summary: cria uma nova task
+      operationId: createTask
+      tags:
+        - tasks 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Título da task
+                  example: Comprar pão
+                description:
+                  type: string
+                  description: Descrição da task
+                  example: Comprar pão na padaria da esquina
+                date:
+                  type: string
+                  description: Data para aquela tarefa
+                  example: 2024-03-22
+      responses:
+        '201':
+          description: Task criada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '123'
+  /tasks/{id}:
+    get:
+      summary: Pega uma task por id 
+      operationId: getTaskById
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da task
+          schema:
+            type: string
+      responses:
+        '200':
+          description: task
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Comprar pão
+                  description:
+                    type: string
+                    example: Comprar pão na padaria da esquina
+                  date: 
+                    type: string
+                    example: 2024-03-22
+    put:
+      summary: atualiza uma task
+      operationId: updateTask
+      tags:
+        - tasks
+      parameters:
+          - name: id
+            in: path
+            required: true
+            description: ID da task
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Título da task
+                  example: Comprar pão
+                description:
+                  type: string
+                  description: Descrição da task
+                  example: Comprar pão na padaria da esquina
+                date:
+                  type: string
+                  description: Data para aquela tarefa
+                  example: 2024-03-22 
+      responses:
+        '200':
+          description: Task atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'ok'
+    delete:
+      summary: deleta uma task
+      operationId: deleteTask
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da task
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task deletada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'ok'
+
+    
