@@ -1,0 +1,16 @@
+FROM python:3.8-slim-buster
+
+# Define o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copia o arquivo de requisitos do projeto para o contêiner
+COPY requirements.txt .
+
+# Instala as dependências do projeto
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o código do projeto para o contêiner
+COPY . .
+
+# Expõe a porta que o Flask vai usar para servir a aplicação
+EXPOSE 5000

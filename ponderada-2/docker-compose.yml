@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db_1:
+    image: postgres:15-alpine 
+    volumes:
+      - database/postgres-1:/var/lib/postgresql/data
+    expose: 
+      - 5432
+    environment:
+      - POSTGRES_DB: postgres
+      - POSTGRES_USER: leao09
+      - POSTGRES_PASSWORD: adm123 
+  
+  api_1:
+    build: 
+      context: ./fastApi 
+    command: bash -c 'uvicorn app.main:app --host 0.0.0.0'
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db_1
+
+  db_2:
+    image: postgres:15-alpine 
+    volumes:
+      - database/postgres-2:/var/lib/postgresql/data
+    expose: 
+      - 5434
+    environment:
+      - POSTGRES_DB: postgres
+      - POSTGRES_USER: leao09
+      - POSTGRES_PASSWORD: adm123 
+
+  api_2:
+    build: 
+      context: ./flask 
+    command: bash -c 'python -m flask --app main run'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db_2 
+
+
+volumes:
+  database/postgres-1:
+  database/postgres-2:
