@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, Body, Request
-from app.models import TaskSchema
+from fastapi import APIRouter, Depends, Body, HTTPException, Request
+from app.models import TaskSchema, UpdateTaskSchema
 from app.auth.jwt_bearer import jwtBearer
 from app.db import database, Task
 
@@ -40,7 +40,15 @@ async def create_task(task: TaskSchema = Body(default=None)):
 async def update_task(new_task: TaskSchema, id: int):
     if not database.is_connected:
         await database.connect()
-    return await Task.objects.update_or_create(id=id)
+    
+    task = await Task.objects.get_or_none(id=id)
+    if task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    task.isDone = new_task.isDone
+    await task.update()
+    
+    return task
 
 
 @app.delete("/task/{id}", dependencies=[Depends(jwtBearer())])

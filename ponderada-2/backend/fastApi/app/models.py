@@ -16,7 +16,8 @@ class TaskSchema(BaseModel):
         }
 
 # Classe para representar os usuários do sistema
-
+class UpdateTaskSchema(BaseModel):
+    isDone: bool
 
 class UserSchema(BaseModel):
     Email: str = Field(default=None)
