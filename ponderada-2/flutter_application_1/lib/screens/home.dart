@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api/toDo.dart';
 import '../model/todo.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/widgets/todo_item.dart';
@@ -10,7 +11,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final todosList = ToDo.todoList();
+  List<ToDo> todosList = [];
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
 
@@ -110,9 +111,24 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _handleToDoChange(ToDo todo) {
+  void _handleToDoChange(ToDo todo) async{
+    if(await taskDone(int.parse(todo.id!))){
+       fetchTodos();
+    }else{
+      fetchTodos();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro em atualizar tarefa!'),
+        ),
+      );
+    }
+  }
+
+  void fetchTodos() async {
+    final todos = await getTask();
     setState(() {
-      todo.isDone = !todo.isDone;
+      todosList = todos;
+      _foundToDo = todos;
     });
   }
 
@@ -122,13 +138,22 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _addToDoItem(String toDo) {
-    setState(() {
-      todosList.add(ToDo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          todoText: toDo));
-    });
-    _todoController.clear();
+  void _addToDoItem(String toDo) async {
+    if(await addTask(toDo)){
+      fetchTodos();
+      _todoController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tarefa registrada com sucesso!'),
+        ),
+      );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao registrar tarefa!'),
+        ),
+      );
+    }
   }
 
   void _runFilter(String enteredKeyword) {
@@ -147,7 +172,75 @@ class _HomeState extends State<Home> {
       _foundToDo = results;
     });
   }
+    Row _buildAddTodo() {
+    return Row(
+      children: [
+        _buildAddTodoInput(),
+        _buildAddTodoButton(),
+      ],
+    );
+  }
 
+  Expanded _buildAddTodoInput() {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.only(
+          bottom: 20,
+          right: 20,
+          left: 20,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 5,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0.0, 0.0),
+              blurRadius: 10.0,
+              spreadRadius: 0.0,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: TextField(
+          controller: _todoController,
+          decoration: const InputDecoration(
+            hintText: "Add a new todo item",
+            border: InputBorder.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container _buildAddTodoButton() {
+    return Container(
+      margin: const EdgeInsets.only(
+        bottom: 20,
+        right: 20,
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          _addToDoItem(_todoController.text);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: tdBlue,
+          minimumSize: const Size(60, 30),
+          elevation: 10,
+        ),
+        child: const Text(
+          "+",
+          style: TextStyle(
+            fontSize: 40,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
   Widget searchBox() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 15),

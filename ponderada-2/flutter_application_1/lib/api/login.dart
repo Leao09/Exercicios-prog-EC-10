@@ -20,18 +20,15 @@ Future<bool> login(String email, String password) async {
 
   if (response.statusCode == 200) {
     final body = jsonDecode(response.body);
-    _storeAccessToken(body["acess_token"], body["user_id"]);
+    _storeAccessToken(body["acess_token"]);
     return true;
   } else {
     return false;
   }
 }
 
-Future<bool> signUp( String email, String password) async {
-  final Map<String, String> data = {
-    "Email": email,
-    "password": password
-  };
+Future<bool> signUp(String email, String password) async {
+  final Map<String, String> data = {"Email": email, "password": password};
 
   var response = await http.post(Uri.parse("$baseurl/signup"),
       headers: <String, String>{
@@ -46,6 +43,6 @@ Future<bool> signUp( String email, String password) async {
   }
 }
 
-void _storeAccessToken(String token, int userId) async {
+void _storeAccessToken(String token) async {
   globals.accessToken = token;
 }
