@@ -59,7 +59,7 @@ Future<bool> removeTask(int id) async {
 
 Future<bool> taskDone(int id) async {
   final response = await http.put(
-    Uri.parse("$baseurl/tak$id"),
+    Uri.parse("$baseurl/task/$id"),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

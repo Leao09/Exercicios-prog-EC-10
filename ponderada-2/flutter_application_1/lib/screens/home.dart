@@ -113,16 +113,25 @@ class _HomeState extends State<Home> {
   }
 
   void _handleToDoChange(ToDo todo) async {
-    if (await taskDone(int.parse(todo.id!))) {
-      fetchTodos();
-    } else {
-      fetchTodos();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro em atualizar tarefa!'),
-        ),
-      );
+    try {
+      bool success = await taskDone(int.parse(todo.id!));
+      print(success);
+      if (success) {
+        fetchTodos();
+      } else {
+        _showErrorSnackBar();
+      }
+    } catch (e) {
+      _showErrorSnackBar();
     }
+  }
+
+  void _showErrorSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Erro em atualizar tarefa!'),
+      ),
+    );
   }
 
   void fetchTodos() async {
