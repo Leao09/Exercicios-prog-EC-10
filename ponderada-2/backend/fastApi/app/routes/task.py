@@ -31,11 +31,11 @@ async def create_task(task: TaskSchema = Body(default=None)):
                               isDone=task.isDone)
     return {"success": "Successfully created"}
 
-@app.put("/task", dependencies=[Depends(jwtBearer())])
-async def update_task(new_task: TaskSchema):
+@app.put("/task/{id}", dependencies=[Depends(jwtBearer())])
+async def update_task(new_task: TaskSchema,id:int):
     if not database.is_connected:
         await database.connect()
-    return await Task.objects.update_or_create(id=new_task.id,
+    return await Task.objects.update_or_create(id=id,
                                      Name=new_task.Name,
                                      isDone=new_task.isDone)
     

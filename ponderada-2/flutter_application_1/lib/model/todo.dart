@@ -9,6 +9,14 @@ class ToDo{
     this.isDone = false,
   });
   
+   factory ToDo.fromJson(Map<String, dynamic> json) {
+    return ToDo(
+      id: json["id"],
+      todoText: json["content"],
+      isDone: json["done"],
+    );
+  }
+
   static List<ToDo> todoList(){
     return [
       ToDo(id: '01', todoText: 'Learn Flutter', isDone: true),

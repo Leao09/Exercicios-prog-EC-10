@@ -35,7 +35,3 @@ async def shutdown():
     if database.is_connected:
         await database.disconnect()
 
-
-if "__name__" == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
