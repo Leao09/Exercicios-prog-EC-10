@@ -1,4 +1,4 @@
-class ToDo{
+class ToDo {
   String? id;
   String? todoText;
   bool isDone;
@@ -8,16 +8,16 @@ class ToDo{
     required this.todoText,
     this.isDone = false,
   });
-  
-   factory ToDo.fromJson(Map<String, dynamic> json) {
+
+  factory ToDo.fromJson(Map<String, dynamic> json) {
     return ToDo(
-      id: json["id"],
-      todoText: json["content"],
-      isDone: json["done"],
+      id: json["id"].toString(),
+      todoText: json["Name"],
+      isDone: json["done"] == 1 ? true : false,
     );
   }
 
-  static List<ToDo> todoList(){
+  static List<ToDo> todoList() {
     return [
       ToDo(id: '01', todoText: 'Learn Flutter', isDone: true),
       ToDo(id: '02', todoText: 'Learn Dart', isDone: false),

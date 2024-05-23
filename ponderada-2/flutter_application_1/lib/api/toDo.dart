@@ -31,7 +31,7 @@ Future<bool> addTask(String content) async {
         'Authorization': 'Bearer ${globals.accessToken}',
       },
       body: jsonEncode(<String, dynamic>{
-        "content": content,
+        "Name": content,
       }));
   if (response.statusCode == 200) {
     return true;

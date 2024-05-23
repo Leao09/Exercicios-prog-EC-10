@@ -17,8 +17,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _foundToDo = todosList;
     super.initState();
+    _foundToDo = todosList;
+    fetchTodos();
   }
 
   @override
@@ -111,10 +112,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _handleToDoChange(ToDo todo) async{
-    if(await taskDone(int.parse(todo.id!))){
-       fetchTodos();
-    }else{
+  void _handleToDoChange(ToDo todo) async {
+    if (await taskDone(int.parse(todo.id!))) {
+      fetchTodos();
+    } else {
       fetchTodos();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -132,14 +133,25 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _deleteToDoItem(String id) {
-    setState(() {
-      todosList.removeWhere((item) => item.id == id);
-    });
+  void _deleteToDoItem(int id) async {
+    if (await removeTask(id)) {
+      fetchTodos();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tarefa removida com sucesso!'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao remover tarefa!'),
+        ),
+      );
+    }
   }
 
   void _addToDoItem(String toDo) async {
-    if(await addTask(toDo)){
+    if (await addTask(toDo)) {
       fetchTodos();
       _todoController.clear();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -147,7 +159,7 @@ class _HomeState extends State<Home> {
           content: Text('Tarefa registrada com sucesso!'),
         ),
       );
-    }else{
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Erro ao registrar tarefa!'),
@@ -172,7 +184,8 @@ class _HomeState extends State<Home> {
       _foundToDo = results;
     });
   }
-    Row _buildAddTodo() {
+
+  Row _buildAddTodo() {
     return Row(
       children: [
         _buildAddTodoInput(),
@@ -241,6 +254,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
   Widget searchBox() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
