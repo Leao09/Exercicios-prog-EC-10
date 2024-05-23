@@ -6,7 +6,7 @@ var baseurl = globals.baseUrl;
 
 Future<bool> login(String email, String password) async {
   final Map<String, String> data = {
-    "email": email,
+    "Email": email,
     "password": password,
   };
 
@@ -29,7 +29,7 @@ Future<bool> login(String email, String password) async {
 
 Future<bool> signUp( String email, String password) async {
   final Map<String, String> data = {
-    "email": email,
+    "Email": email,
     "password": password
   };
 
