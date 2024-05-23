@@ -19,7 +19,7 @@ async def sign_up(user: UserSchema):
 @app.post("/login", tags=["user"])
 async def user_login(user: UserSchema):        
     if check_user(user):
-        return signJWT((await User.objects.get(email=user.Email)).id)
+        return signJWT((await User.objects.get(Email=user.Email)).id)
     return {"error": "Dados inválidos"}
 
 async def check_user(data: UserSchema):
