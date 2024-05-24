@@ -37,7 +37,7 @@ async def create_task(task: TaskSchema = Body(default=None)):
 
 
 @app.put("/task/{id}", dependencies=[Depends(jwtBearer())])
-async def update_task(new_task: TaskSchema, id: int):
+async def update_task(new_task: UpdateTaskSchema, id: int):
     if not database.is_connected:
         await database.connect()
     

@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
 
   void _handleToDoChange(ToDo todo) async {
     try {
-      bool success = await taskDone(int.parse(todo.id!));
+      bool success = await taskDone(int.parse(todo.id!), todo.isDone);
       print(success);
       if (success) {
         fetchTodos();
