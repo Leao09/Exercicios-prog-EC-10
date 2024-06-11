@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  login: 
+    build: ./login
+    ports:
+     - "3001:3001"
+  task: 
+    build: ./task
+    ports:
+      - "3002:3002" 
