@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/api/toDo.dart';
 import '../model/todo.dart';
 import 'package:flutter_application_1/constants/colors.dart';
@@ -20,6 +21,10 @@ class _HomeState extends State<Home> {
     super.initState();
     _foundToDo = todosList;
     fetchTodos();
+  }
+
+  void profilePage(context) {
+    Navigator.pushNamed(context, '/profile');
   }
 
   @override
@@ -159,7 +164,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void _addToDoItem(String toDo) async {
+  void _addToDoItem(String toDo,) async {
     if (await addTask(toDo)) {
       fetchTodos();
       _todoController.clear();
@@ -283,14 +288,13 @@ class _HomeState extends State<Home> {
               hintStyle: TextStyle(color: tdGrey)),
         ));
   }
-}
-
-AppBar _buildAppBar() {
+  AppBar _buildAppBar() {
   return AppBar(
       backgroundColor: tdBGColor,
       elevation: 0,
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Icon(Icons.menu, color: tdBlack, size: 30),
+        GestureDetector(onTap: () => profilePage(context), 
+        child: Icon(Icons.menu, color: tdBlack, size: 30,)),
         Container(
             height: 40,
             width: 40,
@@ -301,3 +305,7 @@ AppBar _buildAppBar() {
             ))
       ]));
 }
+
+}
+
+

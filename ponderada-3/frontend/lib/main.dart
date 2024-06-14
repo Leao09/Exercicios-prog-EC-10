@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/screens/home.dart';
 import 'package:flutter_application_1/screens/login.dart';
+import 'package:flutter_application_1/screens/profile.dart';
 import 'package:flutter_application_1/screens/register.dart';
 
 void main() {
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/home': (context) => Home(),
           '/login': (context) => LoginPage(),
-          '/register': (context) => RegisterPage()
+          '/register': (context) => RegisterPage(),
+          '/profile': (context) => ProfilePage(),
         });
   }
 }
