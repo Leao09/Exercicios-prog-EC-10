@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../globals.dart' as globals;
 
-var baseurl = globals.baseUrl;
+var baseurl = globals.loginURL;
 
 Future<bool> login(String email, String password) async {
   final Map<String, String> data = {

@@ -4,7 +4,7 @@ import "package:flutter_application_1/model/todo.dart";
 import "../globals.dart" as globals;
 import "package:http/http.dart" as http;
 
-var baseurl = globals.baseUrl;
+var baseurl = globals.taskURL;
 
 Future<List<ToDo>> getTask() async {
   final response = await http.get(
