@@ -20,6 +20,11 @@ services:
     ports:  
       - "8003:8003"
 
+  user:
+    build: ./user
+    ports:
+      - "8004:8004"
+      
   gateway:
     build: ./gateway
     ports:
@@ -28,3 +33,4 @@ services:
       - login
       - task
       - image_process
+      - user

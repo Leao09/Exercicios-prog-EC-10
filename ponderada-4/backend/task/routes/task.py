@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends, Body, HTTPException
-from models import TaskSchema, UpdateTaskSchema
+from models import TaskSchema
 from auth.jwt_bearer import jwtBearer
 from db import database, Task
+from logs import LoggerSetup
+
+logger_setup = LoggerSetup()
+LOGGER = logger_setup.logger
 
 
 app = APIRouter(tags=["task"])
@@ -11,6 +15,7 @@ app = APIRouter(tags=["task"])
 
 @app.get("/task")
 async def read_task():
+    LOGGER.info("Reading all tasks")
     if not database.is_connected:
         await database.connect()
 
@@ -19,6 +24,7 @@ async def read_task():
 
 @app.get("/task/{id}")
 async def read_tasks(id: int):
+    LOGGER.info("Reading a task")
     if not database.is_connected:
         await database.connect()
 
@@ -29,6 +35,7 @@ async def read_tasks(id: int):
 
 @app.post("/task", dependencies=[Depends(jwtBearer())], tags=["task"])
 async def create_task(task: TaskSchema = Body(default=None)):
+    LOGGER.info("Creating a task")
     if not database.is_connected:
         await database.connect()
 
@@ -38,6 +45,7 @@ async def create_task(task: TaskSchema = Body(default=None)):
 
 @app.put("/task/{id}", dependencies=[Depends(jwtBearer())])
 async def update_task(id: int):
+    LOGGER.info("Update a task")
     if not database.is_connected:
         await database.connect()
     
@@ -53,6 +61,7 @@ async def update_task(id: int):
 
 @app.delete("/task/{id}", dependencies=[Depends(jwtBearer())])
 async def delete_task(id: int):
+    LOGGER.info(" Delete a task")
     if not database.is_connected:
         await database.connect()
 

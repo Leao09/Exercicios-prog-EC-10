@@ -3,12 +3,14 @@ from fastapi.responses import StreamingResponse
 from rembg import remove
 from PIL import Image
 import io
-from logs.logger import setup_logger
+from logs import LoggerSetup
+
+logger_setup = LoggerSetup()
+LOGGER = logger_setup.logger
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI()
-logger = setup_logger('processamento-imagens')
 
 
 @app.post("/images/upload", tags=["images"])
@@ -20,7 +22,7 @@ async def upload_image(image: UploadFile = File(...)):
         byte_arr = io.BytesIO()
         output_image.save(byte_arr, format="PNG")
         byte_arr = byte_arr.getvalue()
-        logger.info('imagem enviada e processada')
+        LOGGER.info('imagem enviada e processada')
         return StreamingResponse(io.BytesIO(byte_arr), media_type="image/png")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
