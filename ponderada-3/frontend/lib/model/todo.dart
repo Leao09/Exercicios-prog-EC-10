@@ -13,7 +13,7 @@ class ToDo {
     return ToDo(
       id: json["id"].toString(),
       todoText: json["Name"],
-      isDone: json["done"] == 1 ? true : false,
+      isDone: json["isDone"],
     );
   }
 

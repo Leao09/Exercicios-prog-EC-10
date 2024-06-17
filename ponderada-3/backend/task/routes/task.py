@@ -37,7 +37,7 @@ async def create_task(task: TaskSchema = Body(default=None)):
 
 
 @app.put("/task/{id}", dependencies=[Depends(jwtBearer())])
-async def update_task(new_task: UpdateTaskSchema, id: int):
+async def update_task(id: int):
     if not database.is_connected:
         await database.connect()
     
@@ -45,7 +45,7 @@ async def update_task(new_task: UpdateTaskSchema, id: int):
     if task is None:
         raise HTTPException(status_code=404, detail="Task not found")
     
-    task.isDone = new_task.isDone
+    task.isDone = not task.isDone
     await task.update()
     
     return task

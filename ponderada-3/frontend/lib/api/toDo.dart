@@ -57,7 +57,7 @@ Future<bool> removeTask(int id) async {
   }
 }
 
-Future<bool> taskDone(int id, bool isDone) async {
+Future<bool> taskDone(int id) async {
   final response = await http.put(
     Uri.parse("$baseurl/task/$id"),
     headers: {
@@ -65,7 +65,6 @@ Future<bool> taskDone(int id, bool isDone) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${globals.accessToken}',
     },
-    body: jsonEncode({'isDone': !isDone}),
   );
   print(response.body);
   if (response.statusCode == 200) {

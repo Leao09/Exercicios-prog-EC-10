@@ -119,7 +119,7 @@ class _HomeState extends State<Home> {
 
   void _handleToDoChange(ToDo todo) async {
     try {
-      bool success = await taskDone(int.parse(todo.id!), todo.isDone);
+      bool success = await taskDone(int.parse(todo.id!));
       print(success);
       if (success) {
         fetchTodos();
@@ -164,7 +164,9 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void _addToDoItem(String toDo,) async {
+  void _addToDoItem(
+    String toDo,
+  ) async {
     if (await addTask(toDo)) {
       fetchTodos();
       _todoController.clear();
@@ -288,24 +290,28 @@ class _HomeState extends State<Home> {
               hintStyle: TextStyle(color: tdGrey)),
         ));
   }
+
   AppBar _buildAppBar() {
-  return AppBar(
-      backgroundColor: tdBGColor,
-      elevation: 0,
-      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        GestureDetector(onTap: () => profilePage(context), 
-        child: Icon(Icons.menu, color: tdBlack, size: 30,)),
-        Container(
-            height: 40,
-            width: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnBmup3VBCKJqZxqbuR9-8Y5T7FHzUyCl5K7uUC8kgKw&s'),
-            ))
-      ]));
+    return AppBar(
+        backgroundColor: tdBGColor,
+        elevation: 0,
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          GestureDetector(
+              onTap: () => profilePage(context),
+              child: Icon(
+                Icons.menu,
+                color: tdBlack,
+                size: 30,
+              )),
+          Container(
+              height: 40,
+              width: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnBmup3VBCKJqZxqbuR9-8Y5T7FHzUyCl5K7uUC8kgKw&s'),
+              ))
+        ]));
+  }
 }
-
-}
-
-

@@ -4,8 +4,11 @@ import 'package:flutter_application_1/screens/home.dart';
 import 'package:flutter_application_1/screens/login.dart';
 import 'package:flutter_application_1/screens/profile.dart';
 import 'package:flutter_application_1/screens/register.dart';
+import 'package:flutter_application_1/api/notification.dart' as notifyService;
 
 void main() {
+  notifyService.initializeNotifications();
+  notifyService.requestNotificationPermissions();
   runApp(const MyApp());
 }
 
