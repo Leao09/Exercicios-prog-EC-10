@@ -1,3 +1,4 @@
 {
-  "python.analysis.extraPaths": ["./ponderada-2/backend/fastApi"]
+  "python.analysis.extraPaths": ["./ponderada-2/backend/fastApi"],
+  "cmake.configureOnOpen": false
 }
